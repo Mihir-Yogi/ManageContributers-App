@@ -85,7 +85,7 @@ document.getElementById('create').addEventListener('click', (e) => {
             alert("You can't give category name as a empty!")
     
         }
-
+    
     }
 
 
@@ -117,7 +117,32 @@ for(const key in data){
     document.getElementById('tableDropdown').innerHTML += `
     <option value = '${key}'>${key}</option>
     `
+    document.getElementById('category-f').innerHTML += `
+    <option value = '${key}'>${key}</option>
+    `
 }
+
+document.getElementById('category-f').addEventListener('change' , (e)=>{
+    const memberDropdown = document.getElementById('member-f')
+    memberDropdown.innerHTML = ''
+    for(const key in data){
+        if(e.target.value == key){
+            let memberFromObj = ( JSON.parse(data[key]))
+            for(const localKey in memberFromObj){
+                memberDropdown.innerHTML += `
+                <option value = '${localKey}'>${localKey}</option>
+                `
+            }
+        }
+    }
+
+    if(e.target.value == "selectCategory"){
+        memberDropdown.innerHTML += `
+            <option value = 'selectCategory'>Select Category</option>
+            `
+    }
+
+})
 
 
 document.getElementById('tableDropdown').addEventListener('change' , function (e){
@@ -133,7 +158,6 @@ document.getElementById('tableDropdown').addEventListener('change' , function (e
 
 
 function showTable (key, value) {
-
 
     // console.log(key)
     // console.log(value)
@@ -155,7 +179,59 @@ function showTable (key, value) {
         th.innerHTML = key
         tableRow.appendChild(th)
     }
-
+    
     table.appendChild(tableRow)
     tableArea.appendChild(table)
 }
+
+
+
+document.getElementById('form2').addEventListener('submit' , function(e){
+    e.preventDefault();
+
+    let categoryName = document.getElementById('category-f').value
+    let memberName = document.getElementById('member-f').value
+    let amount = document.getElementById('amount').value
+    
+    for(const key in data){
+        if(categoryName == key){
+            let str = JSON.parse(data[categoryName])
+            for(const key2 in str){
+                if(key2 == memberName){
+                    let fetchedMember = memberName
+                    let currentDate = Date.now();
+                    let dateInMicro = currentDate.toString()
+
+                    let category = JSON.parse(data[categoryName])
+                    let member = category[fetchedMember]
+                    member[dateInMicro] = amount
+
+                    category[fetchedMember] = member
+
+                    data[categoryName] = JSON.stringify(category)
+
+                    localStorage.setItem(categoryName , JSON.stringify(category))
+                }
+                if(key2 !== memberName){
+                    let fetchedMember = key2
+                    let currentDate = Date.now();
+                    let dateInMicro = currentDate.toString()
+
+                    let category = JSON.parse(data[categoryName])
+                    let member = category[fetchedMember]
+                    member[dateInMicro] = 0
+
+                    category[fetchedMember] = member
+
+                    data[categoryName] = JSON.stringify(category)
+
+                    localStorage.setItem(categoryName , JSON.stringify(category))
+                }
+            }
+
+        }
+    }
+
+    alert(JSON.stringify(data));
+    
+})
