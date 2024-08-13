@@ -12,7 +12,7 @@ for(let i = 0; i < localStorage.length; i++){
     data[lKey] = localStorage.getItem(lKey)
 }
 
-console.log(data)
+// console.log(data)
 
 
 
@@ -23,7 +23,7 @@ let localKey = []
 for(let i = 0; i < lengthOfLocal; i++){
     localKey.push(localStorage.key(i))
 }
-console.log(localKey)
+// console.log(localKey)
 
 
 document.getElementById('create').addEventListener('click', (e) => {
@@ -42,7 +42,7 @@ document.getElementById('create').addEventListener('click', (e) => {
         alert("category already exists!")
     }else{
 
-        console.log(localStorage.length);
+        // console.log(localStorage.length);
     
 
         if(parseInt(dropdonw) === 0){
@@ -77,8 +77,9 @@ document.getElementById('create').addEventListener('click', (e) => {
             localStorage.setItem(input.value , JSON.stringify(data[input.value]))
     
             members = []
-            console.log(data)
-    
+            // console.log(data)
+            alert("category created succesfully!")
+            window.location.reload();
         }else{
     
             alert("You can't give category name as a empty!")
@@ -134,15 +135,15 @@ document.getElementById('tableDropdown').addEventListener('change' , function (e
 function showTable (key, value) {
 
 
-    console.log(key)
-    console.log(value)
+    // console.log(key)
+    // console.log(value)
     let tableArea = document.getElementById('showTable')
 
     tableArea.innerHTML = ''
     let table = document.createElement('table')
 
     let obj = JSON.parse(value)
-    console.log(obj)
+    // console.log(obj)
     
     
     tableArea.innerHTML += `<h2>${key}</h2>`
