@@ -29,7 +29,7 @@ for(let i = 0; i < lengthOfLocal; i++){
 document.getElementById('create').addEventListener('click', (e) => {
     e.preventDefault();
     const size = document.getElementById('size').value
-    
+    console.log(size)
     let status = false
     localKey.forEach((e)=>{
         if(e == input.value){
@@ -43,7 +43,9 @@ document.getElementById('create').addEventListener('click', (e) => {
     }else{
 
         // console.log(localStorage.length);
-        if(input.value !== "" ){
+        if(size == "Select"){
+            alert("You forgot to add members!")
+        }else if(input.value !== "" ){
     
             let status = true
     
@@ -99,9 +101,7 @@ document.getElementById('size').addEventListener('change', function () {
 
 
     inputContainer.innerHTML = ''
-    if(value == "Select"){
-        alert("You forgot to add members!")
-    }else if(input.value !== ""){
+    if(input.value !== ""){
         for(let i = 0; i < value; i++){
             let input = document.createElement('input')
             input.type = 'text'
