@@ -16,25 +16,32 @@
             font-weight: 400;
             font-style: normal;
         }
-        h1{
+        h1,h2{
             color: #fff;
         }
         table{
-            color: #fff;
-            background-color: #121212;
-            padding: 20px;
+            color: #ffffff;
+            background-color: #4c4c4c;
+            padding: 10px;
+        }
+        table tr th {
+            background-color: #776b00;
         }
         table tr th,td{
             border: 2px solid white;
-            padding: 0 10px;
+            padding: 2px 10px;
+        }
+        .special{
+            display: block;
+            align-items: center;
         }
         .section{
             width: auto;
             height: auto  200px ;
             padding: 20px;
             margin: 10px ;
-            display: flex;
-            justify-items: center;
+            /* display: flex; */
+            /* justify-items: center; */
             border-radius: 5px;
             background: #4c4c4c;
             font-size: 15px;
@@ -47,7 +54,7 @@
             color: #fff;
         }
 
-        span {
+        .seperator {
             padding: 5px;
             display: flex;
             justify-content: start;
@@ -58,6 +65,9 @@
             width: 50px;
         }
 
+        .seconderyText {
+            color: #ffee57;
+        }
         button {
             color: #ffffff;
             padding: 10px 15px;
@@ -76,7 +86,9 @@
             box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
         }
 
-        
+        #delete_btn{
+            margin-left: 10px;
+        }
         #delete_btn:hover{
             background: #ff2f00;
         }
@@ -171,12 +183,10 @@
             display: none;
         }
 
-
-
         </style>
 </head>
 <body>
-    <h1>Contributer's Balance <span style="color: #ffee57;">Tracker</span></h1></h1>
+    <h1>Contributer's Balance <span class="seconderyText">Tracker</span></h1></h1>
     <div id="cardBody">
     <div class="card">
         <svg class="wave" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
@@ -225,13 +235,16 @@
     <div id="container">
 
         <form action="submit" id="form1">
+            <div class="seperator">
+                <h2>Create <span class="seconderyText">Category</span></h2>
+            </div> 
             <span>
             <label>category name : <input type="text" id="category"></label>
             </span>
-            <span>
+            <div class="seperator">
                 <label>contributer size : <input type="number" id="size"></label>
                 
-            </span>
+            </div>
             <div id="showInput"></div>
             <br>
             <button id="create">create</button>
@@ -239,41 +252,49 @@
     </div>
 </section>
 <Section class="section">
+    <div class="seperator">
+        <h2>Add <span class="seconderyText">Amount</span></h2>
+    </div> 
     <div id="counting-form">
         <form action="submit" id="form2">
-            <span>
+            <div class="seperator">
                 <label>Category : </label>
                 <select id="category-f">
                     <option value="selectCategory">Select Category</option>
                 </select>
-            </span>
-            <span>
+            </div>
+            <div class="seperator">
                 <label>member : </label>
                 <select id="member-f">
                     <option value="select">Select Member</option>
                 </select>
-            </span>
-            <span>
+            </div>
+            <div class="seperator">
                 <label>Amount : </label>
                 <input type="number" id="amount" placeholder="₹">
-            </span>
+            </div>
             <button id="btn">Save</button>
         </form>
     </div>
 </Section>
 
-<section class="section">
-    <h2>Add Amount</h2>
+<section class="section special">
+    <div class="seperator">
+        <h2>Show <span class="seconderyText">Table</span></h2>
+    </div> 
     <div id="tableArea">
         <select id="tableDropdown">
             <option value="select">Select</option>
         </select>
-        <div id="showTable">
-        </div>
+    </div>
+    <div id="showTable">
     </div>
 </section>
 
 <section class="section">
+    <div class="seperator">
+        <h2>Delete <span class="seconderyText">Category</span> </h2>
+    </div> 
     <div id="deleteSection">
         <form id="categoryDelete">
             <select id="deleteCat">
