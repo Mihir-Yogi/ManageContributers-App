@@ -1,6 +1,5 @@
 const input = document.getElementById('category')
 
-
 const data = {
 
 
@@ -62,7 +61,7 @@ document.getElementById('create').addEventListener('click', (e) => {
             }
     
             if(status){
-                for(let i = 0; i < dropdonw; i++){
+                for(let i = 0; i < size; i++){
                     let member = document.getElementById(`member${i}`)
                     data[input.value] = {}
                     members.push(member.value)
@@ -79,20 +78,26 @@ document.getElementById('create').addEventListener('click', (e) => {
     
             members = []
             // console.log(data)
-            alert("category created succesfully!")
-            window.location.reload();
-        }else{
-    
-            alert("You can't give category name as a empty!")
+            const cardBody = document.getElementById('cardBody')
+            cardBody.style.display = 'block'
+            document.getElementById('message').innerHTML = 'Category Created Successfully!'
+            setTimeout(()=>{
+                document.getElementById('cancleBtn').addEventListener(()=>{
+                    cardBody.style.display = 'none';
+                })
+                cardBody.style.display = 'none'; 
+            },5000)
+            }else{
+                
+                alert("You can't give category name as a empty!")
+                
+            }
     
         }
-    
-    }
-
-
-
-})
-
+        
+        
+        
+    })
 
 document.getElementById('size').addEventListener('change', function () {
     let value = parseInt(this.value)
@@ -106,6 +111,7 @@ document.getElementById('size').addEventListener('change', function () {
             let input = document.createElement('input')
             input.type = 'text'
             input.id = `member${i}`
+            input.placeholder = `${i+1} MemberName`
             inputContainer.appendChild(input)
         }
     }else{
@@ -317,6 +323,16 @@ document.getElementById('form2').addEventListener('submit' , function(e){
                     localStorage.setItem(categoryName , JSON.stringify(category))
                 }
             }
+
+            const cardBody = document.getElementById('cardBody')
+            cardBody.style.display = 'block'
+            document.getElementById('message').innerHTML = 'Record Saved!'
+            setTimeout(()=>{
+                document.getElementById('cancleBtn').addEventListener(()=>{
+                    cardBody.style.display = 'none';
+                })
+                cardBody.style.display = 'none'; 
+            },5000)
 
         }
     }
