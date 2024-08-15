@@ -43,13 +43,7 @@ document.getElementById('create').addEventListener('click', (e) => {
     }else{
 
         // console.log(localStorage.length);
-    
-
-        if(parseInt(size) === 0){
-    
-            alert('please chouse contributers!')
-    
-        }else if(input.value !== "" ){
+        if(input.value !== "" ){
     
             let status = true
     
@@ -105,8 +99,9 @@ document.getElementById('size').addEventListener('change', function () {
 
 
     inputContainer.innerHTML = ''
-    
-    if(input.value !== ""){
+    if(value == "Select"){
+        alert("You forgot to add members!")
+    }else if(input.value !== ""){
         for(let i = 0; i < value; i++){
             let input = document.createElement('input')
             input.type = 'text'
