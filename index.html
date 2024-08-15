@@ -6,39 +6,119 @@
     <title>Document</title>
 
     <style>
+        body {
+            display: grid;
+            row-gap: 20px;
+            background-color: #212121;
+        }
+        h1{
+            color: #fff;
+        }
         table{
             color: #fff;
             background-color: #121212;
+            padding: 20px;
         }
-        table tr th {
-            border: 2px solid #fff;
-            padding: 3px 20px;
+        table tr th,td{
+            border: 2px solid white;
+            padding: 0 10px;
+        }
+        .section{
+            width: auto;
+            height: auto  200px ;
+            padding: 20px;
+            margin: 10px ;
+            display: flex;
+            justify-items: center;
+            border-radius: 5px;
+            background: #4c4c4c;
+            font-size: 15px;
+        }
+
+        input{
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid yellow ;
+            color: #fff;
+        }
+
+        span {
+            padding: 5px;
+            display: flex;
+            justify-content: start;
+            color: #fff;
+        }
+
+        #form2 input {
+            width: 50px;
+        }
+
+        button {
+            color: #ffffff;
+            padding: 10px 15px;
+            margin-top: 5px;
+            font-size: 18px;
+            border-radius: 0.5em;
+            background: #3d3d3d;
+            cursor: pointer;
+            border: 1px solid #4c4c4c;
+            transition: all 0.3s;
+            box-shadow: 6px 6px 12px #464646, -6px -6px 12px #4c4c4c;
+        }
+
+        button:active {
+            color: #666;
+            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
         }
     </style>
 </head>
 <body>
-    <h1>Tital</h1>
-<section>
+    <h1>Contributer's Balance Tracker</h1>
+<section class="section">
     <div id="container">
 
         <form action="submit" id="form1">
-            <span>name <input type="text" id="category"></span>
-            <br>
-            <span>contributer size 
-                <select name="size" id="size">
-                    <option value="0">0</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-                <br>
-                <div id="slots"></div>
+            <span>
+            <label>category name : <input type="text" id="category"></label>
+            </span>
+            <span>
+                <label>contributer size : <input type="number" id="size"></label>
+                
             </span>
             <div id="showInput"></div>
             <br>
             <button id="create">create</button>
         </form>
 
+        
+    </div>
+</section>
+<Section class="section">
+    <div id="counting-form">
+        <form action="submit" id="form2">
+            <span>
+                <label>Category : </label>
+                <select id="category-f">
+                    <option value="selectCategory">Select Category</option>
+                </select>
+            </span>
+            <span>
+                <label>member : </label>
+                <select id="member-f">
+                    <option value="select">Select Member</option>
+                </select>
+            </span>
+            <span>
+                <label>Amount : </label>
+                <input type="number" id="amount" placeholder="₹">
+            </span>
+            <button id="btn">Save</button>
+        </form>
+    </div>
+</Section>
+
+<section class="section">
+    <div id="tableArea">
         <select id="tableDropdown">
             <option value="select">Select</option>
         </select>
@@ -46,26 +126,17 @@
         </div>
     </div>
 </section>
-<Section>
-    <div id="counting-form">
-        <form action="submit" id="form2">
-            <label>Category : </label>
-            <select id="category-f">
-                <option value="selectCategory">Select Category</option>
+
+<section class="section">
+    <div id="deleteSection">
+        <form id="categoryDelete">
+            <select id="deleteCat">
+                <option value="select">Select</option>
             </select>
-
-            <label>member : </label>
-            <select id="member-f">
-                <option value="select">Select Member</option>
-            </select>
-
-            <label>Amount : </label>
-            <input type="number" id="amount" placeholder="₹">
-
-            <button id="btn">Save</button>
+            <button id="delete_btn">Delete</button>
         </form>
     </div>
-</Section>
+</section>
 </body>
 <script src="script.js"></script>
 </html>

@@ -16,6 +16,7 @@ for(let i = 0; i < localStorage.length; i++){
 
 
 
+
 let members = []
 let lengthOfLocal = localStorage.length
 let localKey = []
@@ -28,7 +29,7 @@ for(let i = 0; i < lengthOfLocal; i++){
 
 document.getElementById('create').addEventListener('click', (e) => {
     e.preventDefault();
-    const dropdonw = document.getElementById('size').value
+    const size = document.getElementById('size').value
     
     let status = false
     localKey.forEach((e)=>{
@@ -45,7 +46,7 @@ document.getElementById('create').addEventListener('click', (e) => {
         // console.log(localStorage.length);
     
 
-        if(parseInt(dropdonw) === 0){
+        if(parseInt(size) === 0){
     
             alert('please chouse contributers!')
     
@@ -53,7 +54,7 @@ document.getElementById('create').addEventListener('click', (e) => {
     
             let status = true
     
-            for(let i = 0; i < dropdonw; i++){
+            for(let i = 0; i < size; i++){
                 let member = document.getElementById(`member${i}`)
                     if(member.value == ''){
                         status = false
@@ -113,14 +114,6 @@ document.getElementById('size').addEventListener('change', function () {
 })
 
 
-for(const key in data){
-    document.getElementById('tableDropdown').innerHTML += `
-    <option value = '${key}'>${key}</option>
-    `
-    document.getElementById('category-f').innerHTML += `
-    <option value = '${key}'>${key}</option>
-    `
-}
 
 document.getElementById('category-f').addEventListener('change' , (e)=>{
     const memberDropdown = document.getElementById('member-f')
@@ -128,11 +121,7 @@ document.getElementById('category-f').addEventListener('change' , (e)=>{
     for(const key in data){
         if(e.target.value == key){
             let memberFromObj = ( JSON.parse(data[key]))
-            for(const localKey in memberFromObj){
-                memberDropdown.innerHTML += `
-                <option value = '${localKey}'>${localKey}</option>
-                `
-            }
+            addCategory(memberFromObj,memberDropdown)
         }
     }
 
@@ -144,8 +133,10 @@ document.getElementById('category-f').addEventListener('change' , (e)=>{
 
 })
 
+const tableDropdown = document.getElementById('tableDropdown')
+addCategory(data,tableDropdown)
 
-document.getElementById('tableDropdown').addEventListener('change' , function (e){
+tableDropdown.addEventListener('change' , function (e){
     
     let key = e.target.value
     for(const objKey in data){
@@ -165,6 +156,7 @@ function showTable (key, value) {
 
     tableArea.innerHTML = ''
     let table = document.createElement('table')
+    let tbody = document.createElement('tbody')
 
     let obj = JSON.parse(value)
     // console.log(obj)
@@ -173,18 +165,115 @@ function showTable (key, value) {
     tableArea.innerHTML += `<h2>${key}</h2>`
 
     let tableRow = document.createElement('tr')
+    let thead = document.createElement('thead')
 
+    tableRow.innerHTML = '<th>Date</th>'
+    let memberCount = 0
+    let sums = {}
     for(const key in obj){
         let th = document.createElement('th')
         th.innerHTML = key
         tableRow.appendChild(th)
+        memberCount++
+        sums[key] = 0
     }
+
+    thead.appendChild(tableRow)
+    table.appendChild(thead)
+
+    let allDates = new Set();
+    for (const name in obj) {
+        for (const timestamp in obj[name]) {
+            allDates.add(Number(timestamp));
+        }
+    }
+
+    let sortedDates = Array.from(allDates)
+    for(const dateInMili of sortedDates){
+        let tr = document.createElement('tr')
+        let date = new Date(dateInMili);
+        let newDate = date.toLocaleString();
+
+        let dateCell = document.createElement('td')
+        dateCell.innerHTML = newDate
+        tr.appendChild(dateCell)
+        
+
+        for(const name in obj){
+            let td = document.createElement('td')
+            let value = obj[name][dateInMili] !== undefined ? obj[name][dateInMili] : 0;
+            let numericValue = Number(value)
+            td.innerHTML = numericValue !== 0 ? value : '-' ;
+            tr.appendChild(td)
+
+            sums[name] += numericValue;
+        }
+
+        tbody.appendChild(tr)
+        table.appendChild(tbody)
+    }
+
+    let footer = document.createElement('tfoot')
+    let totalRow = document.createElement('tr')
+
+    let totalLableCell = document.createElement('td');
+
+    totalLableCell.innerHTML = 'Total'
+    totalRow.appendChild(totalLableCell)
+
+    // console.log(memberCount)
+    let total = 0
+    let equalShere = 0 
+    for(const name in sums){
+        let td = document.createElement('td')
+        let sum = sums[name]
+        td.innerHTML = sum 
+        total += sum 
+        equalShere += sum / memberCount
+        totalRow.appendChild(td)
+    }
+
     
-    table.appendChild(tableRow)
+    footer.appendChild(totalRow)
+    table.appendChild(footer)
+    // console.log(equalShere);
+    // console.log(total);
+
+
+    //balance caluculation
+
+    let balance = {}
+    let balanceNotice = document.createElement('div')
+
+    for(const name in sums){
+        balance[name] = sums[name] - equalShere
+    }
+
+    for(const name in balance){
+        if(balance[name] < 0){
+            for(const otherName in balance){
+                if(balance[otherName] > 0){
+                    let amountToPay = Math.min(balance[otherName] , -balance[name])
+                    balance[name] += amountToPay
+                    balance[otherName] -= amountToPay
+
+                    let notice = document.createElement('p')
+                    notice.innerHTML = `${name} need to pay ₹${amountToPay.toFixed(2)} to ${otherName}`
+
+                    balanceNotice.appendChild(notice)
+
+                    if(balance[otherName] >= 0 ) break;
+                }
+            }
+        }
+    }
+
     tableArea.appendChild(table)
-}
+    tableArea.appendChild(balanceNotice)
+}   
 
-
+const categoryF = document.getElementById('category-f')
+addCategory(data,categoryF)
 
 document.getElementById('form2').addEventListener('submit' , function(e){
     e.preventDefault();
@@ -232,6 +321,32 @@ document.getElementById('form2').addEventListener('submit' , function(e){
         }
     }
 
-    alert(JSON.stringify(data));
-    
 })
+
+
+
+let deleteCategory = document.getElementById('deleteCat')
+
+addCategory(data,deleteCategory)
+
+document.getElementById('delete_btn').addEventListener('click',function (e) {
+    e.preventDefault()
+
+    let deleteCategoryName = document.getElementById('deleteCat').value 
+
+    if(data.hasOwnProperty(deleteCategoryName)){
+        delete data[deleteCategoryName]
+        localStorage.removeItem(deleteCategoryName)
+        window.location.reload()
+        console.log(data[deleteCategoryName]);
+    }
+})
+
+
+function addCategory (obj,section){
+    for(const name in obj){
+        section.innerHTML += `
+        <option value = "${name}"> ${name} </option>
+        `
+    }
+}
