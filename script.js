@@ -82,7 +82,7 @@ document.getElementById('create').addEventListener('click', (e) => {
             cardBody.style.display = 'block'
             document.getElementById('message').innerHTML = 'Category Created Successfully!'
             setTimeout(()=>{
-                document.getElementById('cancleBtn').addEventListener(()=>{
+                document.getElementById('cancleBtn').addEventListener('click' ,()=>{
                     cardBody.style.display = 'none';
                 })
                 cardBody.style.display = 'none'; 
